@@ -29,7 +29,7 @@ Machine learning project for predicting product sales and business success using
 - Interactive prediction interface
 
 ## Project Structure
-
+```
 sales_predictor/
 │
 ├── data/
@@ -37,3 +37,10 @@ sales_predictor/
 ├── utils/
 ├── ui/
 └── app.py
+```
+## Future Improvements
+
+- PostgreSQL database integration
+- User authentication
+- Model persistence
+- Advanced feature engineering
