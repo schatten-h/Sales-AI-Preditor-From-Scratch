@@ -4,6 +4,9 @@ import pandas as pd
 from utils.preproccessing import*
 import utils.preproccessing as up
 import models.Linearregression as lr
+import utils.metrics as metrics
+import utils.visualization as viz
+
 # Load the trained model
 df = pd.read_csv('/data/generate.csv')
  
@@ -19,9 +22,18 @@ w = np.zeros(x_train.shape[1])
 b = 0
 
 #Prediction 
-w_final, b_final = lr.gradient_descent(x_train, y_train, w, b, lamb = 0.7, alpha = 0.01,num_iters = 1000 )
+w_final, b_final, cost_history = lr.gradient_descent(x_train, y_train, w, b, lamb = 0.7, alpha = 0.01,num_iters = 1000 )
 y_pred = lr.predict(x_test,w_final,b_final)
 print(w_final)
 print(b_final)
 print(y_pred[:10])
 
+#metrics
+print("Mean Squared Error:", metrics.mean_squared_error(y_test, y_pred))
+print("Root Mean Squared Error:", metrics.root_mean_squared_error(y_test, y_pred))
+print("R^2 Score:", metrics.r2_score(y_test, y_pred))  
+
+# Visualizations
+viz.plot_cost_history(cost_history)
+viz.plot_predictions(y_test, y_pred)        
+viz.plot_residuals(y_test, y_pred)

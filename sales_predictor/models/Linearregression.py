@@ -37,15 +37,17 @@ def compute_gradient(x,y,w,b, lamb = 0.7):
     dj_dw *= (1/m)
     return dj_dw, dj_db
 def gradient_descent(x,y,w_in,b_in, lamb = 0.7, alpha = 0.01,num_iters = 1000):
-
+    cost_history = []
     for j in range(num_iters):
         dj_dw, dj_db = compute_gradient (x,y,w_in,b_in, lamb)
         w_in = w_in - alpha*dj_dw
         b_in -= alpha*dj_db
+        cost = cost_function(x,y,w_in,b_in, lamb)
+        cost_history.append(cost)
 
         if j % 100 == 0:
-            print(f"Iteration {j}: Cost {cost_function(x,y,w_in,b_in, lamb)}")
-    return w_in, b_in
+            print(f"Iteration {j}: Cost {cost}")
+    return w_in, b_in, cost_history
 
 def predict(x,w,b):
     m = x.shape[0]
