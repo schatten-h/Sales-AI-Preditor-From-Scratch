@@ -17,7 +17,8 @@ data = pd.DataFrame({
     "promo" : promo,
     "price" : price,
     "marketing" : marketing,
-    "month" : month,
+    "month_sin": np.sin(2*np.pi*month/12),
+    "month_cos": np.cos(2*np.pi*month/12),
     "sales": sales,
     "success": success
 

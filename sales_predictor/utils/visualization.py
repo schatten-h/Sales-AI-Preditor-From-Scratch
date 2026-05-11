@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+
 def plot_cost_history(cost_history):
     plt.figure(figsize=(10, 6))
     plt.plot(cost_history, label='Cost Function')
@@ -9,8 +10,9 @@ def plot_cost_history(cost_history):
     plt.legend()
     plt.grid()
     plt.tight_layout()
+    plt.savefig("outputs/cost_history.png")
     plt.show()
-    plt.savefig('cost_history.png')
+    plt.close()
 
 def plot_predictions(y_true, y_pred):
   
@@ -27,18 +29,28 @@ def plot_predictions(y_true, y_pred):
 
     plt.grid()
     plt.tight_layout()
+    plt.savefig("outputs/predictions.png")
     plt.show()
-    plt.savefig('predictions.png')
-
+    plt.close()
+    
 def plot_residuals(y_true, y_pred):
+
     residuals = y_true - y_pred
+
     plt.figure(figsize=(10, 6))
-    plt.scatter(range(len(residuals)), residuals, color='purple')
-    plt.axhline(0, color='black', linestyle='--')
-    plt.xlabel('Sample Index')
-    plt.ylabel('Residual')
-    plt.title('Residual Plot')
+
+    plt.scatter(y_pred, residuals)
+
+    plt.axhline(0, linestyle='--')
+
+    plt.xlabel("Predicted values")
+    plt.ylabel("Residuals")
+
+    plt.title("Residual Plot")
+
     plt.grid()
     plt.tight_layout()
+
+    plt.savefig("outputs/residuals.png")
     plt.show()
-    plt.savefig('residuals.png')
+    plt.close()
