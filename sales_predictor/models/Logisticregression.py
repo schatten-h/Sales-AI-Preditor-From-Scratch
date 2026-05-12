@@ -27,7 +27,9 @@ def cost_function(x: np.ndarray, y: np.ndarray, w: np.ndarray, b: float, lamb: f
     z = np.clip(z, -500, 500)
     f= sigmoid(z)
     f = np.clip(f, epsilon, 1 - epsilon)
-    cost = np.sum(-y @ np.log(f) - (1-y) @ np.log(1-f))/m
+    cost = (
+    -np.sum(y * np.log(f) + (1 - y) * np.log(1 - f))
+) / m
     reg_cost = (lamb*np.sum(w**2))/(2*m)
 
     return cost + reg_cost
@@ -49,10 +51,8 @@ def compute_gradients(x: np.ndarray, y: np.ndarray, w: np.ndarray, b: float, lam
 
     z = x @ w + b
     f= sigmoid(z)
-    dw = np.dot((f - y), x) 
+    dw = (x.T @ (f - y) )/m
     db = np.sum(f - y)/m
-    
-    dw /= m
     
     dw += (lamb/m)* w
 
@@ -99,5 +99,5 @@ def predict(x: np.ndarray, w: np.ndarray, b: float) -> tuple[np.ndarray, np.ndar
 
     z= x @ w + b
     p_prob = sigmoid(z)
-    p = np.where( p_prob >= 0.5, 1, 0)
+    p =( p_prob >= 0.5).astype(int)
     return p, p_prob

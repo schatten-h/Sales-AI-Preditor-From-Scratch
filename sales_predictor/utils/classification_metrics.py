@@ -73,3 +73,66 @@ def f1_score( y_true: np.ndarray, y_pred: np.ndarray) -> float:
         return 0.0
     
     return 2 * (precision * recall) / (precision + recall)
+
+def confusion_matrix(y_true: np.ndarray,
+                     y_pred: np.ndarray) -> np.ndarray:
+    """
+    Compute confusion matrix.
+    Args:
+      y_true : np.ndarray   The real target values.
+    y_pred : np.ndarray The predicted target values.                               
+    Returns:
+        [[TN FP]
+         [FN TP]]
+    """
+
+    tp = np.sum((y_true == 1) & (y_pred == 1))
+    tn = np.sum((y_true == 0) & (y_pred == 0))
+
+    fp = np.sum((y_true == 0) & (y_pred == 1))
+    fn = np.sum((y_true == 1) & (y_pred == 0))
+
+    return np.array([
+        [tn, fp],
+        [fn, tp]
+    ])
+
+def specificity_score(y_true : np.ndarray, y_pred : np.ndarray) -> float:
+    """ Compute Specificity Score.
+    Args:
+        y_true : np.ndarray   The real target values.
+        y_pred : np.ndarray The predicted target values.    
+    Returns:
+    float
+        Specificity score.
+    """
+
+    cm = confusion_matrix(y_true, y_pred)
+
+    tn = cm[0,0]
+    fp = cm[0,1]
+
+    if (tn + fp) == 0:
+        return 0.0
+
+    return tn / (tn + fp)
+
+def false_positive_rate(y_true : np.ndarray, y_pred : np.ndarray) -> float:
+    """ Compute False Positive Rate.
+    Args:
+      y_true : np.ndarray   The real target values.
+    y_pred : np.ndarray The predicted target values.    
+    Returns:
+    float
+        False Positive Rate.
+    """
+    cm = confusion_matrix(y_true, y_pred)
+
+    tn = cm[0,0]
+    fp = cm[0,1]
+
+    if (fp + tn) == 0:
+        return 0.0
+
+    return fp / (fp + tn)
+
